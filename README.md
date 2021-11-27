@@ -1,1 +1,1 @@
-# Vertap Project
+# The Vertap Project
