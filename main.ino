@@ -8,5 +8,5 @@ void loop() {
     digitalWrite(powerPin, HIGH);
     delay(delayTime);
     digitalWrite(powerPin, LOW);
-    delay(delayTime);
+    delay(delayTime); 
 } 
