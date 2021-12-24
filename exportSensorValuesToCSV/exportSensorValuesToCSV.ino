@@ -40,6 +40,8 @@ int thetaX, thetaY, thetaZ;
 // an MPU9250 object with the MPU-9250 sensor on I2C bus 0 with address 0x68
 MPU9250 IMU(Wire,0x68);
 int status;
+int rowNumber = 0;
+int rowCount = 10000;
 
 void setup() {
   // serial to display data
@@ -58,16 +60,20 @@ void setup() {
 }
 
 void loop() {
-  // read the sensor
-  IMU.readSensor();
-  // display the data
-  Serial.print("GyroX: ");
-  Serial.print(radToDeg*(IMU.getGyroX_rads()),2); // GyroX
-  Serial.print("\t");
-  Serial.print("GyroY: ");  
-  Serial.print(radToDeg*(IMU.getGyroY_rads()),2); // GyroY
-  Serial.print("\t");
-  Serial.print("GyroZ: ");  
-  Serial.println(radToDeg*(IMU.getGyroZ_rads()),2);    // GyroZ
-  Serial.print("\n");
+  if (rowNumber < rowCount) {
+    Serial.print(++rowNumber);
+    Serial.print('\t');
+    // read the sensor
+    IMU.readSensor();
+    // display the data
+    // Serial.print("GyroX: ");
+    Serial.print(radToDeg*(IMU.getGyroX_rads()),5); // GyroX
+    Serial.print("\t");
+    // Serial.print("GyroY: ");  
+    Serial.print(radToDeg*(IMU.getGyroY_rads()),5); // GyroY
+    Serial.print("\t");
+    // Serial.print("GyroZ: ");  
+    Serial.println(radToDeg*(IMU.getGyroZ_rads()),5);    // GyroZ
+    Serial.print("\n");
+  }
 }
