@@ -34,12 +34,34 @@ S20A is 3.3V voltage regulator MIC5205-3.3BM5
 
 #include "MPU9250.h"
 
-int radToDeg = (180/3.1415);
-int thetaX, thetaY, thetaZ;
-
 // an MPU9250 object with the MPU-9250 sensor on I2C bus 0 with address 0x68
 MPU9250 IMU(Wire,0x68);
 int status;
+double radToDeg = (180/3.1415);
+double thetaX = 0;
+double thetaY = 0;
+int decimalPrecision = 4;
+
+double gyroX() {
+  double gyroX_last_update = micros();
+  double deltaTime = (micros() - gyroX_last_update)/1000;
+  double gyroXOffset = 0.002483;
+  double gyroXRate = (radToDeg*(IMU.getGyroX_rads())) - gyroXOffset;
+  thetaX += gyroXRate * deltaTime;
+  gyroX_last_update = micros();
+  return thetaX;
+}
+
+double gyroY() {
+  double gyroY_last_update = micros();
+  double deltaTime = (micros() - gyroY_last_update)/1000;
+  double gyroYOffset = 0.02647;
+  double gyroYRate =  (radToDeg*(IMU.getGyroY_rads())) - gyroYOffset;
+  thetaY += gyroYRate * deltaTime;
+  gyroY_last_update = micros();
+  return thetaY;
+}
+
 
 void setup() {
   // serial to display data
@@ -62,12 +84,9 @@ void loop() {
   IMU.readSensor();
   // display the data
   Serial.print("GyroX: ");
-  Serial.print(radToDeg*(IMU.getGyroX_rads()),2); // GyroX
+  Serial.print(gyroX(), decimalPrecision); // GyroX
   Serial.print("\t");
   Serial.print("GyroY: ");  
-  Serial.print(radToDeg*(IMU.getGyroY_rads()),2); // GyroY
-  Serial.print("\t");
-  Serial.print("GyroZ: ");  
-  Serial.println(radToDeg*(IMU.getGyroZ_rads()),2);    // GyroZ
+  Serial.print(gyroY(),decimalPrecision); // GyroY
   Serial.print("\n");
 }
