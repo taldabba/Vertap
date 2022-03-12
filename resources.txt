@@ -1,2 +1,3 @@
 Arduino Nano Pinout Diagram: https://content.arduino.cc/assets/Pinout-NANO_latest.pdf 
 MPU-9250 Product Specification: https://invensense.tdk.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf
+MPU-6050 Product Specification: https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf
