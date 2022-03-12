@@ -80,16 +80,16 @@ void loop()
   kalPitch = kalmanY.update(accPitch, gyr.YAxis);
   kalRoll = kalmanX.update(accRoll, gyr.XAxis);
 
-//  Serial.print(kalPitch);
-//  Serial.print(":");
-//  Serial.print(kalRoll);
-//  Serial.print(":");
-//  Serial.print(savedPitch);
-//  Serial.print(":");
-//  Serial.print(savedRoll);
-//  Serial.print(":");
-//  Serial.println(errorSum);
-//  Serial.println();
+  Serial.print(kalPitch);
+  Serial.print(":");
+  Serial.print(kalRoll);
+  Serial.print(":");
+  Serial.print(savedPitch);
+  Serial.print(":");
+  Serial.print(savedRoll);
+  Serial.print(":");
+  Serial.println(errorSum);
+  Serial.println();
   
   buttonState = digitalRead(buttonPin);
   if (buttonState == HIGH) {
@@ -97,7 +97,7 @@ void loop()
     savedRoll = kalRoll;
   }
 
-  float slope = (255/75);
+  float slope = (255/65);
   errorPitch = slope * abs(kalPitch - savedPitch);
   errorRoll = slope * abs(kalRoll - savedRoll);
   errorSum = errorPitch + errorRoll;
@@ -106,6 +106,6 @@ void loop()
     RGB_color((255.0), (0.0), 0.0);
   }
   else {
-    RGB_color((0.0 + 3*errorSum), (255.0 - (2*errorSum)), 0.0);
+    RGB_color((0.0 + 3*errorSum), (255.0 - (1.75*errorSum)), 0.0);
   }
 }
