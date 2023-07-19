@@ -184,8 +184,7 @@ int main(void)
   {
 	  MPU6050_Read_Accel();
 	  MPU6050_Read_Gyro();
-	  printf("%.3f,%.3f,%.3f\r\n", Ax_raw,Ay_raw,Az_raw);
-//	  printf("%.3f,%.3f,%.3f\r\n", Gyx_raw,Gyy_raw,Gyz_raw);
+	  printf("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\r\n", Ax_raw,Ay_raw,Az_raw,Gyx_raw,Gyy_raw,Gyz_raw);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
