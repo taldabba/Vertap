@@ -23,6 +23,8 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <stdint.h>
+#include <math.h>
+#include "FIRfilter.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -32,7 +34,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define g_TO_MPS2 9.81
+#define g_TO_MPS2 9.81f
+#define RAD_TO_DEG 57.2958f
+#define SAMPLE_TIME_MS 0.01f
+#define COMP_FILT_ALPHA 0.05f
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -42,6 +47,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c1;
+
+TIM_HandleTypeDef htim4;
 
 UART_HandleTypeDef huart2;
 
@@ -54,6 +61,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_TIM4_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -79,12 +87,16 @@ static uint8_t VAL_SMPRT_DIV      		= 0x07;
 
 uint8_t Raw_Accel_Buffer[6];
 uint8_t Raw_Gyro_Buffer[6];
+
+// Raw_ variables hold unconverted value from IMU
 int16_t Raw_Accel_X;
 int16_t Raw_Accel_Y;
 int16_t Raw_Accel_Z;
 int16_t Raw_Gyro_X;
 int16_t Raw_Gyro_Y;
 int16_t Raw_Gyro_Z;
+
+// Variables hold converted values (m/s^2 and deg/s)
 float Ax_raw;
 float Ay_raw;
 float Az_raw;
@@ -92,6 +104,22 @@ float Gyx_raw;
 float Gyy_raw;
 float Gyz_raw;
 
+// Declare low pass filters
+FIRfilter lpfAccX;
+FIRfilter lpfAccY;
+FIRfilter lpfAccZ;
+
+FIRfilter lpfGyrX;
+FIRfilter lpfGyrY;
+FIRfilter lpfGyrZ;
+
+// Declare euler angles
+float phiHat_deg;
+float thetaHat_deg;
+
+// Declare red and green pulse width values (duty cycle)
+uint8_t greenPulseWidth;
+uint8_t redPulseWidth;
 
 void MPU6050_Init(void) {
 	uint8_t check=0;
@@ -105,32 +133,45 @@ void MPU6050_Init(void) {
 
 	printf("Found!\r\n");
 
+	// Power IMU
 	HAL_I2C_Mem_Write(&hi2c1, MPU6050_I2C_ADDR, REG_PWR_MGMT_1, 1, &VAL_PWR_MGMT_1, 1, 1000);
+
+	// Set sampling rate of 1 kHz
 	HAL_I2C_Mem_Write(&hi2c1, MPU6050_I2C_ADDR, REG_SMPRT_DIV, 1, &VAL_SMPRT_DIV, 1, 1000);
+
+	// Set gyro config
 	HAL_I2C_Mem_Write(&hi2c1, MPU6050_I2C_ADDR, REG_GYRO_CONFIG, 1, &VAL_GYRO_CONFIG, 1, 1000);
+
+	// Set accel config
 	HAL_I2C_Mem_Write(&hi2c1, MPU6050_I2C_ADDR, REG_ACCEL_CONFIG, 1, &VAL_ACCEL_CONFIG, 1, 1000);
 
 }
 
 void MPU6050_Read_Accel(void) {
+	// Read accel values into buffer
 	HAL_I2C_Mem_Read(&hi2c1, MPU6050_I2C_ADDR, REG_ACCEL_XOUT_H, 1, Raw_Accel_Buffer, 6, 1000);
 
+	// Seperate buffer into individual accel axis variables
 	Raw_Accel_X = (int16_t)(Raw_Accel_Buffer[0]<<8 | Raw_Accel_Buffer[1]);
 	Raw_Accel_Y = (int16_t)(Raw_Accel_Buffer[2]<<8 | Raw_Accel_Buffer[3]);
 	Raw_Accel_Z = (int16_t)(Raw_Accel_Buffer[4]<<8 | Raw_Accel_Buffer[5]);
 
+	// Units converted from g to m/s^2
 	Ax_raw = (Raw_Accel_X / 16384.0f)*g_TO_MPS2;
 	Ay_raw = (Raw_Accel_Y / 16384.0f)*g_TO_MPS2;
 	Az_raw = (Raw_Accel_Z / 16384.0f)*g_TO_MPS2;
 }
 
 void MPU6050_Read_Gyro(void) {
+	// Read gyro values
 	HAL_I2C_Mem_Read(&hi2c1, MPU6050_I2C_ADDR, REG_GYRO_XOUT_H, 1, Raw_Gyro_Buffer, 6, 1000);
 
+	// Seperate buffer into individual gyro axis variables
 	Raw_Gyro_X = (int16_t)(Raw_Gyro_Buffer[0]<<8 | Raw_Gyro_Buffer[1]);
 	Raw_Gyro_Y = (int16_t)(Raw_Gyro_Buffer[2]<<8 | Raw_Gyro_Buffer[3]);
 	Raw_Gyro_Z = (int16_t)(Raw_Gyro_Buffer[4]<<8 | Raw_Gyro_Buffer[5]);
 
+	// Units in deg/s
 	Gyx_raw = Raw_Gyro_X / 131.0f;
 	Gyy_raw = Raw_Gyro_Y / 131.0f;
 	Gyz_raw = Raw_Gyro_Z / 131.0f;
@@ -174,8 +215,26 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_I2C1_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
+
   MPU6050_Init();
+  FIR_Filter_Init(&lpfAccX);
+  FIR_Filter_Init(&lpfAccY);
+  FIR_Filter_Init(&lpfAccZ);
+
+  // Estimate euler angles
+  phiHat_deg = 0.0f;
+  thetaHat_deg = 0.0f;
+
+  // Initalize green and red pulse width value
+  greenPulseWidth = 255;
+  redPulseWidth = 0;
+
+  // Start PWM output for Green and Red (RGB LED)
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -184,7 +243,39 @@ int main(void)
   {
 	  MPU6050_Read_Accel();
 	  MPU6050_Read_Gyro();
-	  printf("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\r\n", Ax_raw,Ay_raw,Az_raw,Gyx_raw,Gyy_raw,Gyz_raw);
+
+	  // Update FIR accel values
+	  FIR_Filter_Update(&lpfAccX, Ax_raw);
+	  FIR_Filter_Update(&lpfAccY, Ay_raw);
+	  FIR_Filter_Update(&lpfAccZ, Az_raw);
+
+	  // Calculate phi (roll) and theta (pitch) estimate values
+	  float phiHat_acc_deg = atanf(lpfAccY.output / lpfAccZ.output) * RAD_TO_DEG;
+	  float thetaHat_acc_deg = asinf(lpfAccX.output / g_TO_MPS2) * RAD_TO_DEG;
+
+	  // Update FIR gyro values
+	  FIR_Filter_Update(&lpfGyrX, Gyx_raw);
+	  FIR_Filter_Update(&lpfGyrY, Gyy_raw);
+	  FIR_Filter_Update(&lpfGyrZ, Gyz_raw);
+
+	  float phiDot_dps = lpfGyrX.output + tanf(thetaHat_deg) * (sinf(phiHat_deg)*lpfGyrY.output + cosf(phiHat_deg)*lpfGyrZ.output);
+	  float thetaDot_dps = cosf(phiHat_deg)*lpfGyrY.output - sinf(phiHat_deg)*lpfGyrZ.output;
+
+	  phiHat_deg = (COMP_FILT_ALPHA*phiHat_acc_deg) + ((1.0f-COMP_FILT_ALPHA)*(phiHat_deg + SAMPLE_TIME_MS * phiDot_dps));
+	  thetaHat_deg = (COMP_FILT_ALPHA*thetaHat_acc_deg) + ((1.0f-COMP_FILT_ALPHA)*(thetaHat_deg + SAMPLE_TIME_MS * thetaDot_dps));
+
+	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,greenPulseWidth);
+	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,redPulseWidth);
+
+	  greenPulseWidth--;
+	  redPulseWidth++;
+	  if (greenPulseWidth==0) greenPulseWidth = 255;
+	  if (redPulseWidth == 255 ) redPulseWidth = 0;
+
+//	  printf("%.3f,%.3f\r\n", Ax_raw, lpfAccX.output);
+//	  printf("%.3f,%.3f\r\n", Ay_raw, lpfAccY.output);
+	  printf("%.3f,%.3f\r\n", Az_raw, lpfAccZ.output);
+//	  printf("%.3f,%.3f\r\n",phiHat_deg,thetaHat_deg);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -230,9 +321,11 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1
+                              |RCC_PERIPHCLK_TIM34;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
+  PeriphClkInit.Tim34ClockSelection = RCC_TIM34CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -288,6 +381,70 @@ static void MX_I2C1_Init(void)
 }
 
 /**
+  * @brief TIM4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM4_Init(void)
+{
+
+  /* USER CODE BEGIN TIM4_Init 0 */
+
+  /* USER CODE END TIM4_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM4_Init 1 */
+
+  /* USER CODE END TIM4_Init 1 */
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 0;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 255;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.Pulse = 255;
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM4_Init 2 */
+
+  /* USER CODE END TIM4_Init 2 */
+  HAL_TIM_MspPostInit(&htim4);
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -303,7 +460,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 38400;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
