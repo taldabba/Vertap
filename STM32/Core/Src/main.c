@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <math.h>
+#include <stdbool.h>
+
 #include "FIRfilter.h"
 /* USER CODE END Includes */
 
@@ -131,6 +133,10 @@ float scaledRoll;
 float scaledPitch;
 float scaledError;
 
+// Declare user set (button) position variables
+float userSetPhiPosition_deg;
+float userSetThetaPosition_deg;
+
 void MPU6050_Init(void) {
 	uint8_t check=0;
 
@@ -187,6 +193,13 @@ void MPU6050_Read_Gyro(void) {
 	Gyz_raw = Raw_Gyro_Z / 131.0f;
 }
 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if(GPIO_Pin == BUTTON_Pin) {
+		userSetPhiPosition_deg = phiHat_deg;
+		userSetThetaPosition_deg = thetaHat_deg;
+	}
+}
+
 int __io_putchar(int ch)
 {
   HAL_UART_Transmit(&huart2,(uint8_t*)&ch,1,HAL_MAX_DELAY);
@@ -237,6 +250,10 @@ int main(void)
   phiHat_deg = 0.0f;
   thetaHat_deg = 0.0f;
 
+  // Initalize user set positions
+  userSetPhiPosition_deg = 0.0f;
+  userSetThetaPosition_deg = 0.0f;
+
   // Initalize error and its associated variables
   scaledRoll = 0.0f;
   scaledPitch = 0.0f;
@@ -264,7 +281,7 @@ int main(void)
 	  FIR_Filter_Update(&lpfAccY, Ay_raw);
 	  FIR_Filter_Update(&lpfAccZ, Az_raw);
 
-	  // Calculate phi (roll) and theta (pitch) estimate values
+	  // Calculate phi (roll) and theta (pitch) estimate values with accel
 	  float phiHat_acc_deg = atanf(lpfAccY.output / lpfAccZ.output) * RAD_TO_DEG;
 	  float thetaHat_acc_deg = asinf(lpfAccX.output / g_TO_MPS2) * RAD_TO_DEG;
 
@@ -273,20 +290,27 @@ int main(void)
 	  FIR_Filter_Update(&lpfGyrY, Gyy_raw);
 	  FIR_Filter_Update(&lpfGyrZ, Gyz_raw);
 
+	  // Find phi (roll) and theta (pitch) rate of change
 	  float phiDot_dps = lpfGyrX.output + tanf(thetaHat_deg) * (sinf(phiHat_deg)*lpfGyrY.output + cosf(phiHat_deg)*lpfGyrZ.output);
 	  float thetaDot_dps = cosf(phiHat_deg)*lpfGyrY.output - sinf(phiHat_deg)*lpfGyrZ.output;
 
+	  // Use comp filter to find phi (roll) and theta (pitch) angles
 	  phiHat_deg = (COMP_FILT_ALPHA*phiHat_acc_deg) + ((1.0f-COMP_FILT_ALPHA)*(phiHat_deg + SAMPLE_TIME_MS * phiDot_dps));
 	  thetaHat_deg = (COMP_FILT_ALPHA*thetaHat_acc_deg) + ((1.0f-COMP_FILT_ALPHA)*(thetaHat_deg + SAMPLE_TIME_MS * thetaDot_dps));
 
-	  scaledRoll = SCALE_CONSTANT * fabs(phiHat_deg);
-	  scaledPitch = SCALE_CONSTANT * fabs(thetaHat_deg);
+	  // Calculate error
+	  scaledRoll = SCALE_CONSTANT * fabs(phiHat_deg - userSetPhiPosition_deg);
+	  scaledPitch = SCALE_CONSTANT * fabs(thetaHat_deg - userSetThetaPosition_deg);
 	  scaledError = sqrt( pow(scaledRoll,2) + pow(scaledPitch,2) );
+
+	  // If error is beyond 90deg, automatically set error to 1 (assuming +-90deg is the span)
 	  if(scaledRoll>1.0f || scaledPitch>1.0f) scaledError=1.0f;
 
+	  // Calculate new LED colour PWM pulse widths
 	  greenPulseWidth = (uint8_t)(COUNTER_PWM_LED - (scaledError * COUNTER_PWM_LED * SENSITIVITY_LED));
 	  redPulseWidth = (uint8_t)(scaledError * COUNTER_PWM_LED * SENSITIVITY_LED);
 
+	  // Change PWM duty cycles of green and red (change LED colour)
 	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,greenPulseWidth);
 	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,redPulseWidth);
 
@@ -294,6 +318,8 @@ int main(void)
 //	  printf("%.3f,%.3f\r\n", Ay_raw, lpfAccY.output);
 //	  printf("%.3f,%.3f\r\n", Az_raw, lpfAccZ.output);
 	  printf("%.3f,%.3f\r\n",phiHat_deg,thetaHat_deg);
+
+	  // Delay to prevent freezing
 	  HAL_Delay(1);
 
     /* USER CODE END WHILE */
@@ -445,14 +471,14 @@ static void MX_TIM4_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 255;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
-  sConfigOC.Pulse = 255;
+  sConfigOC.Pulse = 0;
   if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
@@ -480,7 +506,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 38400;
+  huart2.Init.BaudRate = 115200;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -529,6 +555,16 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON_Pin */
+  GPIO_InitStruct.Pin = BUTTON_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(BUTTON_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
 
