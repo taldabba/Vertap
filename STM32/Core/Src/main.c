@@ -38,6 +38,11 @@
 #define RAD_TO_DEG 57.2958f
 #define SAMPLE_TIME_MS 0.01f
 #define COMP_FILT_ALPHA 0.05f
+
+#define SCALE_CONSTANT 0.015713484f
+#define COUNTER_PWM_LED 255.0f
+#define SENSITIVITY_LED 3.0f
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -120,6 +125,11 @@ float thetaHat_deg;
 // Declare red and green pulse width values (duty cycle)
 uint8_t greenPulseWidth;
 uint8_t redPulseWidth;
+
+// Declare error and its associated variables
+float scaledRoll;
+float scaledPitch;
+float scaledError;
 
 void MPU6050_Init(void) {
 	uint8_t check=0;
@@ -227,6 +237,11 @@ int main(void)
   phiHat_deg = 0.0f;
   thetaHat_deg = 0.0f;
 
+  // Initalize error and its associated variables
+  scaledRoll = 0.0f;
+  scaledPitch = 0.0f;
+  scaledError = 0.0f;
+
   // Initalize green and red pulse width value
   greenPulseWidth = 255;
   redPulseWidth = 0;
@@ -264,18 +279,23 @@ int main(void)
 	  phiHat_deg = (COMP_FILT_ALPHA*phiHat_acc_deg) + ((1.0f-COMP_FILT_ALPHA)*(phiHat_deg + SAMPLE_TIME_MS * phiDot_dps));
 	  thetaHat_deg = (COMP_FILT_ALPHA*thetaHat_acc_deg) + ((1.0f-COMP_FILT_ALPHA)*(thetaHat_deg + SAMPLE_TIME_MS * thetaDot_dps));
 
+	  scaledRoll = SCALE_CONSTANT * fabs(phiHat_deg);
+	  scaledPitch = SCALE_CONSTANT * fabs(thetaHat_deg);
+	  scaledError = sqrt( pow(scaledRoll,2) + pow(scaledPitch,2) );
+	  if(scaledRoll>1.0f || scaledPitch>1.0f) scaledError=1.0f;
+
+	  greenPulseWidth = (uint8_t)(COUNTER_PWM_LED - (scaledError * COUNTER_PWM_LED * SENSITIVITY_LED));
+	  redPulseWidth = (uint8_t)(scaledError * COUNTER_PWM_LED * SENSITIVITY_LED);
+
 	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,greenPulseWidth);
 	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,redPulseWidth);
 
-	  greenPulseWidth--;
-	  redPulseWidth++;
-	  if (greenPulseWidth==0) greenPulseWidth = 255;
-	  if (redPulseWidth == 255 ) redPulseWidth = 0;
-
 //	  printf("%.3f,%.3f\r\n", Ax_raw, lpfAccX.output);
 //	  printf("%.3f,%.3f\r\n", Ay_raw, lpfAccY.output);
-	  printf("%.3f,%.3f\r\n", Az_raw, lpfAccZ.output);
-//	  printf("%.3f,%.3f\r\n",phiHat_deg,thetaHat_deg);
+//	  printf("%.3f,%.3f\r\n", Az_raw, lpfAccZ.output);
+	  printf("%.3f,%.3f\r\n",phiHat_deg,thetaHat_deg);
+	  HAL_Delay(1);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
