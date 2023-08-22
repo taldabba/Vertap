@@ -311,14 +311,22 @@ int main(void)
 	  redPulseWidth = (uint8_t)(scaledError * COUNTER_PWM_LED * SENSITIVITY_LED);
 
 	  // Change PWM duty cycles of green and red (change LED colour)
-	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,greenPulseWidth);
-	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,redPulseWidth);
+	  if (greenPulseWidth==0) {
+		  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,0);
+		  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,255);
+	  }
+	  else {
+		  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,greenPulseWidth);
+	  	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,redPulseWidth);
+	  }
 
+	  /* DEBUGGING */
 //	  printf("%.3f,%.3f\r\n", Ax_raw, lpfAccX.output);
 //	  printf("%.3f,%.3f\r\n", Ay_raw, lpfAccY.output);
 //	  printf("%.3f,%.3f\r\n", Az_raw, lpfAccZ.output);
-	  printf("%.3f,%.3f\r\n",phiHat_deg,thetaHat_deg);
-
+//	  printf("%.3f,%.3f,0.000\r\n",phiHat_deg,thetaHat_deg);
+//	  printf("%u,%u,%.3f\r\n", greenPulseWidth, redPulseWidth, scaledError);
+	  printf("%.3f,%.3f,0.000,%u,%u,%.3f\r\n",phiHat_deg,thetaHat_deg,greenPulseWidth, redPulseWidth, scaledError);
 	  // Delay to prevent freezing
 	  HAL_Delay(1);
 
