@@ -312,8 +312,9 @@ int main(void)
 
 	  // Change PWM duty cycles of green and red (change LED colour)
 	  if (greenPulseWidth==0) {
-		  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,0);
-		  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,255);
+		  redPulseWidth=255;
+		  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,greenPulseWidth);
+		  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_3,redPulseWidth);
 	  }
 	  else {
 		  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_2,greenPulseWidth);
