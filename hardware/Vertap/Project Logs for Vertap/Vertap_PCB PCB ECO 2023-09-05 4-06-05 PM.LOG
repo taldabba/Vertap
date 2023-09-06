@@ -1,0 +1,22 @@
+Removed Pin From Net: NetName=+3V Pin=J401-1
+Removed Pin From Net: NetName=GND Pin=J401-4
+Removed Pin From Net: NetName=MCU_USB_N Pin=U401-1
+Removed Pin From Net: NetName=GND Pin=U401-2
+Removed Pin From Net: NetName=MCU_USB_P Pin=U401-3
+Change Component Footprint: Designator=SW301 Old Footprint=EVP-BT1A4A000 New Footprint=LS38G2F-T
+Change Component Footprint: Designator=C101 Old Footprint=WCAP-ASLI_D4H5.5 New Footprint=CAP_0603_MURATA
+Change Component Footprint: Designator=C108 Old Footprint=WCAP-ASLL_D4H5.5 New Footprint=CAP_0603_MURATA
+Change Component Comment : Designator=SW301 Old Comment=EVP-BT1A4A000 New Comment=LS38G2F-T
+Change Component Designator: OldDesignator=TP404 NewDesignator=TP402
+Change Component Designator: OldDesignator=TP405 NewDesignator=TP403
+Change Managed Component Library Link : Designator=C101 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID= Old ItemGUID=B65E7221-A2FA-4999-8D44-4F1C91067157 New ItemGUID= Old RevisionGUID=2183430A-7DD0-49CA-86D8-402203C87121 New RevisionGUID=
+Change Managed Component Library Link : Designator=C108 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID= Old ItemGUID=C8C55C3E-D657-463C-8F08-80D9C39E41DD New ItemGUID= Old RevisionGUID=BA6F6FE7-FDF2-4E7F-923E-61461F02FE20 New RevisionGUID=
+Change component parameters: Designator = "C101" ("C101"); Footprint = "WCAP-ASLI_D4H5.5"; UniqueID = "\OADHNTIV\FAQASRUZ" ("\OADHNTIV\FAQASRUZ")
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C108" ("C108"); Footprint = "WCAP-ASLL_D4H5.5"; UniqueID = "\OADHNTIV\ZRAPDDGN" ("\OADHNTIV\ZRAPDDGN")
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Arrow Electronics"; VariantName = "[No Variations]"
+Change component parameters: Designator = "SW301" ("SW301"); Footprint = "EVP-BT1A4A000"; UniqueID = "\LNLSFLYT\TOWRINJO" ("\LNLSFLYT\TOWRINJO")
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "1642-LS38G2F-TCT-ND"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=MCU_USB_N Pin=U400-5
+Added Pin To Net: NetName=MCU_USB_P Pin=U400-6

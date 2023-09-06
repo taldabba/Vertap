@@ -1,0 +1,3 @@
+Removed Pin From Net: NetName=+3V Pin=SW100-2
+Removed Pin From Net: NetName=GND Pin=SW100-3
+Added Pin To Net: NetName=+3V Pin=BAT100-2

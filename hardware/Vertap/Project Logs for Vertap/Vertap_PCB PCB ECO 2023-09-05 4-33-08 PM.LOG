@@ -1,0 +1,10 @@
+Removed Pin From Net: NetName=+3V Pin=SW100-2
+Removed Pin From Net: NetName=GND Pin=SW100-3
+Change Component DesignItemId : Designator=SW500 Old DesignItemId=EVP-BT1A4A000 New DesignItemId=LS38G2F-T
+Change Component Footprint: Designator=SW500 Old Footprint=EVP-BT1A4A000 New Footprint=LS38G2F-T
+Change Component Comment : Designator=SW500 Old Comment=EVP-BT1A4A000 New Comment=LS38G2F-T
+Change Component Description : Designator=SW500 Old Description=SWITCH TACT 0.02A 15V 0.5N SMD New Description=TOP-PRESS TACTILE SWITCH
+Change component parameters: Designator = "SW500" ("SW500"); Footprint = "EVP-BT1A4A000"; UniqueID = "\NSOFAMJX\QZCGZQNK" ("\NSOFAMJX\QZCGZQNK")
+Change component parameters (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Supplier Part Number 1"; Value = "1642-LS38G2F-TCT-ND"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=+3V Pin=BAT100-2

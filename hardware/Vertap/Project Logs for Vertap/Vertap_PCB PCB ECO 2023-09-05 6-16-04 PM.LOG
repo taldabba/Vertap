@@ -1,0 +1,7 @@
+Added Component: Designator=SW500(LS38G2F-T)
+Add component (AddParameter): Name = "Supplier 1"; Value = "Digi-Key"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "1642-LS38G2F-TCT-ND"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=BUTTON_INT Pin=SW500-1
+Added Pin To Net: NetName=BUTTON_INT Pin=SW500-1
+Added Pin To Net: NetName=GND Pin=SW500-2
+Added Pin To Net: NetName=GND Pin=SW500-2

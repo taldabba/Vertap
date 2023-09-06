@@ -1,0 +1,3 @@
+Removed Pin From Net: NetName=+3V Pin=TP101-1
+Removed Pin From Net: NetName=+3V Pin=TP103-1
+Change Component Designator: OldDesignator=TP402 NewDesignator=TP402

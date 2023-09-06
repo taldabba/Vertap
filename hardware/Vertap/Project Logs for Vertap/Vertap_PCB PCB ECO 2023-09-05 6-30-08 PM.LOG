@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=I2C_SCL Pin=TP200-1
+Removed Pin From Net: NetName=I2C_SDA Pin=TP201-1
+Removed Pin From Net: NetName=BOOT0 Pin=TP300-1
+Removed Pin From Net: NetName=MCU_OSC_OUT Pin=TP302-1
+Removed Pin From Net: NetName=MCU_SWCLK Pin=TP400-1
+Removed Pin From Net: NetName=MCU_SWDIO Pin=TP401-1

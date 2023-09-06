@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=NetC300_1 Pin=TP301-1
+Removed Pin From Net: NetName=MCU_PWM_RED Pin=TP500-1
+Removed Pin From Net: NetName=MCU_PWM_GREEN Pin=TP501-1
+Removed Pin From Net: NetName=BUTTON_INT Pin=TP502-1

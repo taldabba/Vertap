@@ -1,0 +1,3 @@
+Removed Pin From Net: NetName=MCU_USB_N Pin=TP402-1
+Removed Pin From Net: NetName=USB_VCC Pin=TP102-1
+Removed Pin From Net: NetName=MCU_USB_P Pin=TP403-1

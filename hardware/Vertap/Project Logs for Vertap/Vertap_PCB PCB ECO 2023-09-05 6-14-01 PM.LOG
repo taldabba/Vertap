@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=MCU_USB_N Pin=U400-5
+Removed Pin From Net: NetName=MCU_USB_P Pin=U400-6
+Added Pin To Net: NetName=MCU_USB_P Pin=U400-5
+Added Pin To Net: NetName=MCU_USB_N Pin=U400-6

@@ -1,0 +1,32 @@
+Added Component: Designator=TP402(TESTPOINT)
+Added Component: Designator=TP100(TESTPOINT)
+Added Component: Designator=TP101(TESTPOINT)
+Added Component: Designator=TP102(TESTPOINT)
+Added Component: Designator=TP103(TESTPOINT)
+Added Component: Designator=TP200(TESTPOINT)
+Added Component: Designator=TP201(TESTPOINT)
+Added Component: Designator=TP300(TESTPOINT)
+Added Component: Designator=TP301(TESTPOINT)
+Added Component: Designator=TP302(TESTPOINT)
+Added Component: Designator=TP400(TESTPOINT)
+Added Component: Designator=TP401(TESTPOINT)
+Added Component: Designator=TP403(TESTPOINT)
+Added Component: Designator=TP500(TESTPOINT)
+Added Component: Designator=TP501(TESTPOINT)
+Added Component: Designator=TP502(TESTPOINT)
+Added Pin To Net: NetName=MCU_USB_N Pin=TP402-1
+Added Pin To Net: NetName=+3V Pin=TP100-1
+Added Pin To Net: NetName=+3V Pin=TP101-1
+Added Pin To Net: NetName=USB_VCC Pin=TP102-1
+Added Pin To Net: NetName=+3V Pin=TP103-1
+Added Pin To Net: NetName=I2C_SCL Pin=TP200-1
+Added Pin To Net: NetName=I2C_SDA Pin=TP201-1
+Added Pin To Net: NetName=BOOT0 Pin=TP300-1
+Added Pin To Net: NetName=NetC300_1 Pin=TP301-1
+Added Pin To Net: NetName=MCU_OSC_OUT Pin=TP302-1
+Added Pin To Net: NetName=MCU_SWCLK Pin=TP400-1
+Added Pin To Net: NetName=MCU_SWDIO Pin=TP401-1
+Added Pin To Net: NetName=MCU_USB_P Pin=TP403-1
+Added Pin To Net: NetName=MCU_PWM_RED Pin=TP500-1
+Added Pin To Net: NetName=MCU_PWM_GREEN Pin=TP501-1
+Added Pin To Net: NetName=BUTTON_INT Pin=TP502-1

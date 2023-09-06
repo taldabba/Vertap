@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=MCU_OSC_IN Pin=U300-5
+Removed Pin From Net: NetName=MCU_OSC_OUT Pin=U300-6
+Added Pin To Net: NetName=MCU_OSC_OUT Pin=U300-5
+Added Pin To Net: NetName=MCU_OSC_IN Pin=U300-6
