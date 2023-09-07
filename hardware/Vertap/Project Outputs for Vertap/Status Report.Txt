@@ -1,0 +1,22 @@
+Output: Gerber X2 Files
+Type  : GerberX2
+From  : Variant [[No Variations]] of Project [Vertap.PrjPcb]
+   Generated File[Vertap_PCB_Copper_Signal_Top.gbr]
+   Generated File[Vertap_PCB_Copper_Signal_Bot.gbr]
+   Generated File[Vertap_PCB_Legend_Top.gbr]
+   Generated File[Vertap_PCB_Legend_Bot.gbr]
+   Generated File[Vertap_PCB_Soldermask_Top.gbr]
+   Generated File[Vertap_PCB_Soldermask_Bot.gbr]
+   Generated File[Vertap_PCB_Paste_Top.gbr]
+   Generated File[Vertap_PCB_Paste_Bot.gbr]
+   Generated File[Vertap_PCB_Profile.gbr]
+   Generated File[Vertap_PCB_NPTH_Drill.gbr]
+   Generated File[Vertap_PCB_PTH_Drill.gbr]
+   Generated File[Vertap_PCB.EXTREP]
+   Generated File[Vertap_PCB.REP]
+
+
+Files Generated   : 13
+Documents Printed : 0
+
+Finished Output Generation At 7:37:06 PM On 2023-09-07
