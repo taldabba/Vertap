@@ -1,0 +1,24 @@
+Change Component Footprint: Designator=U200 Old Footprint=IS-QFN-24_V New Footprint=INSE-QFN-24_V
+Change Component Comment : Designator=U200 Old Comment=MPU-6050 New Comment=MPU6050
+Change Managed Component Library Link : Designator=U200 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=12866F83-6C8D-4B23-B69A-7DA2A6AF2910 Old ItemGUID=EBFE9E2D-214C-4D56-9829-981A7652E0F8 New ItemGUID=C3EB0515-261C-4277-8CBF-91FFF058DFB6 Old RevisionGUID=6616B753-D6CB-400F-87C9-B825EB7CAE7A New RevisionGUID=3863393B-E200-4084-9A29-5F9928BC7364
+Change component parameters: Designator = "U200" ("U200"); Footprint = "IS-QFN-24_V"; UniqueID = "\RADTPHJQ\RRVKJTPJ" ("\RADTPHJQ\RRVKJTPJ")
+Change component parameters (AddParameter): Name = "Case/Package"; Value = "QFN"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet URL"; Value = "https://datasheet.ciiva.com/1513/1788002-1513632.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet Version"; Value = "Rev. 3.4, 08/2013"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Interface"; Value = "I2C"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "InvenSense"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Max Operating Temperature"; Value = "85°C"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Max Supply Voltage"; Value = "3.6V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Min Operating Temperature"; Value = "-40°C"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Min Supply Voltage"; Value = "2.5V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mounting Technology"; Value = "SM"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Nominal Supply Current"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Nominal Supply Voltage"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Output Current"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Description"; Value = "24-Pin Quad Flat No-lead Package, Body 4 x 4 mm, Pitch 0.5 mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Quantity"; Value = "5000"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package Reference"; Value = "QFN-24"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Packaging"; Value = "CutTape"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "24"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "RoHS Compliant"; Value = "True"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Sensor Type"; Value = "Motion"; VariantName = "[No Variations]"

@@ -1,0 +1,15 @@
+Change Component Footprint: Designator=U200 Old Footprint=IS-QFN-24_V New Footprint=IS-QFN-24_V
+Change Managed Component Library Link : Designator=U200 Old VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 New VaultGUID=12866F83-6C8D-4B23-B69A-7DA2A6AF2910 Old ItemGUID=EBFE9E2D-214C-4D56-9829-981A7652E0F8 New ItemGUID=290cfd1f-3b3d-41bc-bda5-e0e75d848fa9 Old RevisionGUID=6616B753-D6CB-400F-87C9-B825EB7CAE7A New RevisionGUID=a7984bcc-34f9-4b46-84ef-1cdc9077d840
+Change component parameters: Designator = "U200" ("U200"); Footprint = "IS-QFN-24_V"; UniqueID = "\RADTPHJQ\EASTSMJK" ("\RADTPHJQ\EASTSMJK")
+Change component parameters (AddParameter): Name = "Case/Package"; Value = "HVQCCN"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Max Operating Temperature"; Value = "85°C"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Max Supply Voltage"; Value = "3.46V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Min Operating Temperature"; Value = "-40°C"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Min Supply Voltage"; Value = "2.375V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mounting Technology"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Nominal Supply Current"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Nominal Supply Voltage"; Value = "2.5V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Output Current"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "24"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "RoHS Compliant"; Value = "Yes"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Sensor Type"; Value = ""; VariantName = "[No Variations]"

@@ -1,0 +1,19 @@
+Change Component Footprint: Designator=U200 Old Footprint=INSE-QFN-24_V New Footprint=IS-QFN-24_V
+Change Component Comment : Designator=U200 Old Comment=MPU6050 New Comment=MPU-6050
+Change Managed Component Library Link : Designator=U200 Old VaultGUID=12866F83-6C8D-4B23-B69A-7DA2A6AF2910 New VaultGUID=B7D15EC3-160A-466F-A46C-7801FE6295A7 Old ItemGUID=C3EB0515-261C-4277-8CBF-91FFF058DFB6 New ItemGUID=EBFE9E2D-214C-4D56-9829-981A7652E0F8 Old RevisionGUID=3863393B-E200-4084-9A29-5F9928BC7364 New RevisionGUID=6616B753-D6CB-400F-87C9-B825EB7CAE7A
+Change component parameters: Designator = "U200" ("U200"); Footprint = "INSE-QFN-24_V"; UniqueID = "\RADTPHJQ\MEPWLWIL" ("\RADTPHJQ\MEPWLWIL")
+Change component parameters (AddParameter): Name = "Category"; Value = "Sensors,Transducers"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet URL"; Value = "http://datasheet.octopart.com/MPU-6050-InvenSense-datasheet-14421344.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet Version"; Value = "Rev. 3.3, 05/2012"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Dynamic Catalog"; Value = "MPU-6000™Series"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Family"; Value = "Multifunction"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Featured Product"; Value = "MPU-60506-Axis,IntegratedI²CSolution"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "InvenSense"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer URL"; Value = "http://www.invensense.com/"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Online Catalog"; Value = "MPU-6000™Series"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Other Names"; Value = "1428-1007-2
+MPU6050"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Output Type"; Value = "Digital"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Sensor Type"; Value = "MotionTracking"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Standard Package"; Value = "5,000"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Unit PriceUSD"; Value = "Digital"; VariantName = "[No Variations]"
