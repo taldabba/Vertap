@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-09-04T22:58:02.905Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="vfUMSE7sg9j9HXtcMNn_" version="21.6.8" type="device">
+<mxfile host="Electron" modified="2023-09-11T23:21:19.560Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="UkpWAJzqc1R1DAhn_qwc" version="21.6.8" type="device">
   <diagram name="Page-1" id="p9f0EztIlGwvOAvds4I1">
     <mxGraphModel dx="1036" dy="623" grid="1" gridSize="15" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="1">
       <root>
@@ -108,26 +108,20 @@
         <mxCell id="-UvD9ZInSkoe62gdIKDS-8" value="RGB LED" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
           <mxGeometry x="765" y="432" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="yPEFWWGy10OL0Y0w3v0T-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="yPEFWWGy10OL0Y0w3v0T-1" target="-UvD9ZInSkoe62gdIKDS-1">
+        <mxCell id="yPEFWWGy10OL0Y0w3v0T-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="yPEFWWGy10OL0Y0w3v0T-1" target="-UvD9ZInSkoe62gdIKDS-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="yPEFWWGy10OL0Y0w3v0T-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="yPEFWWGy10OL0Y0w3v0T-1" target="-UvD9ZInSkoe62gdIKDS-5">
+        <mxCell id="yPEFWWGy10OL0Y0w3v0T-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.329;entryY=1.003;entryDx=0;entryDy=0;startArrow=classic;startFill=1;entryPerimeter=0;" parent="1" source="yPEFWWGy10OL0Y0w3v0T-1" target="-UvD9ZInSkoe62gdIKDS-5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="yPEFWWGy10OL0Y0w3v0T-1" value="USB MINI B" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="315" y="600" width="120" height="60" as="geometry" />
+        <mxCell id="yPEFWWGy10OL0Y0w3v0T-1" value="USB MINI B" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="390" y="600" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="yPEFWWGy10OL0Y0w3v0T-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=classic;endFill=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="yPEFWWGy10OL0Y0w3v0T-2" target="-UvD9ZInSkoe62gdIKDS-5">
+        <mxCell id="yPEFWWGy10OL0Y0w3v0T-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.668;entryY=1.003;entryDx=0;entryDy=0;endArrow=classic;endFill=1;startArrow=classic;startFill=1;entryPerimeter=0;" parent="1" source="yPEFWWGy10OL0Y0w3v0T-2" target="-UvD9ZInSkoe62gdIKDS-5" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="yPEFWWGy10OL0Y0w3v0T-2" value="SERIAL WIRE DEBUG CONNECTOR" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="457.5" y="600" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="yPEFWWGy10OL0Y0w3v0T-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="yPEFWWGy10OL0Y0w3v0T-3" target="-UvD9ZInSkoe62gdIKDS-5">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="yPEFWWGy10OL0Y0w3v0T-3" value="USART CONNECTOR" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="600" y="600" width="120" height="60" as="geometry" />
+        <mxCell id="yPEFWWGy10OL0Y0w3v0T-2" value="SERIAL WIRE DEBUG CONNECTOR" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="525" y="600" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
